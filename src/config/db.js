@@ -3,7 +3,7 @@ mongoose.set('strictQuery', true);
 
 // connect to db based on environment
 module.exports.connectDB = async () => {
-    await mongoose.connect("mongodb+srv://Babajide:pLQD7oImjhVr0bED@cluster0.azxmr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
+    await mongoose.connect("mongodb+srv://Babajide:Maythird1.!@cluster0.azxmr.mongodb.net/juwsheyaj?retryWrites=true&w=majority&appName=Cluster0", {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
