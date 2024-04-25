@@ -1,6 +1,6 @@
 // controllers/hotelRoomController.js
 const HotelRoom = require("../models/HotelRoom");
-const cloudinaryService = require("../services/cloudinaryService");
+const cloudinaryService = require("../services/CloudinaryService");
 const hotelServices = require("../services/HotelRoomService")
 
 class HotelRoomController {
