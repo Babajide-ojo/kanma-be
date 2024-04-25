@@ -2,7 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
-const hotelRoomController = require("../controllers/hotelRoomController");
+const hotelRoomController = require("../controllers/HotelRoomController");
 
 // Multer configuration for file upload
 const upload = multer({ dest: "uploads/" });
