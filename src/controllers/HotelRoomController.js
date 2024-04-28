@@ -21,18 +21,7 @@ class HotelRoomController {
         const imageUrl = await cloudinaryService.uploadImage(file);;
         images.push(imageUrl);
       }
-      
-    
-    
-
-      console.log({
-        roomName,
-        roomType,
-        price,
-        amenities, 
-        images 
-      });
-
+  
       // Create hotel room
       const hotelRoom = await HotelRoom.create({
         roomName,
@@ -68,6 +57,17 @@ class HotelRoomController {
   async getAllHotels(req, res, next) {
     try {
       const hotels = await hotelServices.getAllHotels();
+      res.json(hotels);
+    } catch (error) {
+      next(error);
+    }
+  } 
+
+  async getAllBookingsByEmail(req, res, next) {
+    const {email} = req.query
+    console.log({email});
+    try {
+      const hotels = await hotelServices.getAllBookingsByEmail(email);
       res.json(hotels);
     } catch (error) {
       next(error);

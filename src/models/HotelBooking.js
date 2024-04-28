@@ -4,6 +4,10 @@ const hotelBookingSchema = new mongoose.Schema({
     userDetails: {
         type: Object
     },
+    email: {
+        type: String,
+        required: true
+    },
     roomDetails: {
         type: Object,
         required: true

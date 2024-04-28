@@ -11,5 +11,6 @@ const upload = multer({ dest: "uploads/" });
 router.post("/create", upload.array("images", 5), hotelRoomController.createHotelRoom);
 router.post("/create-booking", hotelRoomController.createBooking);
 router.get("/all", hotelRoomController.getAllHotels);
+router.get("/user-bookings", hotelRoomController.getAllBookingsByEmail);
 
 module.exports = router;
