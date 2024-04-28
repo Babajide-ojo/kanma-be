@@ -2,8 +2,7 @@ const mongoose = require("mongoose");
 
 const hotelBookingSchema = new mongoose.Schema({
     userDetails: {
-        type: Object,
-        unique: true
+        type: Object
     },
     roomDetails: {
         type: Object,
