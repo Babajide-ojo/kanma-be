@@ -1,5 +1,6 @@
 // services/hotelRoomService.js
 const HotelRoom = require("../models/HotelRoom");
+const Booking = require("../models/HotelBooking")
 
 class HotelRoomService {
   async createHotelRoom(roomData) {
@@ -9,6 +10,15 @@ class HotelRoomService {
 
       const hotelRoom = await HotelRoom.create({ ...roomData, roomId: newRoomId });
       return hotelRoom;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async createBooking(payload) {
+    try {
+      const bookingDetails = await Booking.create(payload);
+      return bookingDetails;
     } catch (error) {
       throw error;
     }

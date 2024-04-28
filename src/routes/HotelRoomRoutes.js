@@ -9,6 +9,7 @@ const upload = multer({ dest: "uploads/" });
 
 // POST /api/hotel-rooms
 router.post("/create", upload.array("images", 5), hotelRoomController.createHotelRoom);
+router.post("/create-booking", hotelRoomController.createBooking);
 router.get("/all", hotelRoomController.getAllHotels);
 
 module.exports = router;

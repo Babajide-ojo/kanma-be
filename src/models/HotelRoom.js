@@ -18,8 +18,7 @@ const hotelRoomSchema = new mongoose.Schema({
         required: true
     },
     amenities: {
-        type: [String],
-        default: []
+        type: String,
     },
     images: {
         type: [String],
