@@ -18,6 +18,7 @@ class HotelRoomController {
     
     
       for (const file of req.files) {
+        console.log({file});
         const imageUrl = await cloudinaryService.uploadImage(file);;
         images.push(imageUrl);
       }
@@ -68,6 +69,16 @@ class HotelRoomController {
     console.log({email});
     try {
       const hotels = await hotelServices.getAllBookingsByEmail(email);
+      res.json(hotels);
+    } catch (error) {
+      next(error);
+    }
+  } 
+
+  async getAllBookings(req, res, next) {
+
+    try {
+      const hotels = await hotelServices.getAllBookings();
       res.json(hotels);
     } catch (error) {
       next(error);

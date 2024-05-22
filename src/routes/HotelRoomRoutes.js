@@ -12,5 +12,6 @@ router.post("/create", upload.array("images", 5), hotelRoomController.createHote
 router.post("/create-booking", hotelRoomController.createBooking);
 router.get("/all", hotelRoomController.getAllHotels);
 router.get("/user-bookings", hotelRoomController.getAllBookingsByEmail);
+router.get("/bookings", hotelRoomController.getAllBookings);
 
 module.exports = router;

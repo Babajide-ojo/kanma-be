@@ -8,6 +8,7 @@ cloudinary.config({
 });
 
 const uploadImage = async (file) => {
+  console.log({file});
   try {
     const result = await cloudinary.uploader.upload(file.path);
     console.log({result});

@@ -41,6 +41,15 @@ class HotelRoomService {
       throw error;
     }
   }
+
+  async getAllBookings() {
+    try {
+      const bookings = await Booking.find();
+      return bookings;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 module.exports = new HotelRoomService();

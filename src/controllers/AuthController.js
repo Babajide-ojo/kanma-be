@@ -76,6 +76,42 @@ class AuthController {
             next(error);
         }
     }
+
+    async adminLogin(req, res, next) {
+        try {
+            const { email, password } = req.body;
+
+         
+            if (!email || !password) {
+                return res.status(400).json({ message: "Please provide email and password" });
+            }
+
+            // Find user by email
+            const user = await userService.getUserByEmail(email);
+            if (!user) {
+                return res.status(401).json({ message: "Invalid email or password" });
+            }
+
+            // Check password
+            const isPasswordValid = await bcrypt.compare(password, user.password);
+            if (!isPasswordValid) {
+                return res.status(401).json({ message: "Invalid email or password" });
+            }
+
+            // Generate JWT token
+            const token = jwt.sign({ userId: user._id }, 'kn;kscml;sc', { expiresIn: 3600000 });
+            const userObject = user.toObject();
+
+ 
+            delete userObject.password;
+            delete userObject.createdAt;
+            delete userObject.updatedAt;
+    
+            res.json({ user: userObject, token });
+        } catch (error) {
+            next(error);
+        }
+    }
 }
 
 module.exports = new AuthController();
