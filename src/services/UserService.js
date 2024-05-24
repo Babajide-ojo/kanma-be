@@ -54,7 +54,7 @@ class UserService {
       const user = await this.getUserByEmail(email);
   
       if (!user) {
-        throw new Error('User not found');
+        return "Email doesn't exist"
       }
   
       // Check if there's an existing reset token for the user
@@ -72,7 +72,7 @@ class UserService {
   
       await nodemailer.forgotPasswordEmail(user.firstName, user.email, resetToken.token);
       
-      return resetToken; // Return the token
+      return "Reset code sent!"; // Return the token
     } catch (error) {
       throw new Error(error.message);
     }

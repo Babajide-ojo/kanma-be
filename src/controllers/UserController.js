@@ -48,16 +48,11 @@ class UserController {
   async requestPasswordReset(req, res, next) {
     try {
       const { email } = req.body;
-
-      // Validate email
       if (!email) {
         return res.status(400).json({ message: "Please provide an email address" });
       }
-
-      // Save/reset token with user's email
-      await userService.saveResetToken(email);
-   
-      res.json({ message: "Password reset email sent successfully" });
+      const message = await userService.saveResetToken(email);
+      res.json({ message });
     } catch (error) {
       next(error);
     }
@@ -66,22 +61,15 @@ class UserController {
   async updatePassword(req, res, next) {
     try {
       const { newPassword, token } = req.body;
-
-      // Validate request body
       if (!newPassword || !token) {
         return res.status(400).json({ message: "Please provide all required fields" });
       }
-
-      // Update password
       await userService.updatePassword(newPassword, token);
-
       res.json({ message: "Password updated successfully" });
     } catch (error) {
       next(error);
     }
   }
-
-  // Add more controller methods as needed
 }
 
 module.exports = new UserController();
