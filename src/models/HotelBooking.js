@@ -18,6 +18,11 @@ const hotelBookingSchema = new mongoose.Schema({
     total_price: {
         type: Number,
         required: true
+    },
+    status: {
+        type: String,
+        enum: ["pending", "confirmed", "cancelled", "completed"], // Define the possible values for status
+        default: "pending" // Set a default value
     }
 }, 
 { timestamps: true }); 

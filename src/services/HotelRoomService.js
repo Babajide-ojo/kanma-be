@@ -107,6 +107,23 @@ class HotelRoomService {
     }
   }
 
+  async updateBookingStatus(bookingId, newStatus) {
+    try {
+      const booking = await Booking.findById(bookingId);
+      if (!booking) {
+        throw new Error('Booking not found');
+      }
+
+      // Update the status
+      booking.status = newStatus;
+      await booking.save();
+
+      return booking;
+    } catch (error) {
+      throw error;
+    }
+  }
+
 }
 
 module.exports = new HotelRoomService();

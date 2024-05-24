@@ -154,6 +154,16 @@ class HotelRoomController {
       next(error);
     }
   }
+    async updateBookingStatus(req, res, next) {
+    const { bookingId } = req.params;
+    const { status } = req.body;
+    try {
+      const updatedBooking = await HotelRoomService.updateBookingStatus(bookingId, status);
+      res.json(updatedBooking);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = new HotelRoomController();

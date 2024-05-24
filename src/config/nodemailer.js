@@ -165,7 +165,7 @@ module.exports.forgotPasswordEmail = (name, email, resetToken) => {
           <h2>${resetToken}</h2>
 
           <p>If you did not request a password reset, or if you believe this email was sent to you by mistake, please disregard this message. Your account remains secure, and no changes have been made.</p>
-          <p>For any further assistance or if you have any questions, please don't hesitate to contact our support team. We're available [mention operating hours or 24/7 and will be happy to assist you.</p>
+          <p>For any further assistance or if you have any questions, please don't hesitate to contact our support team. We're available  24/7 and will be happy to assist you.</p>
           <p>Thank you for choosing Juwsheyaj Hotel. We appreciate your cooperation in maintaining the security of your account.</p>
           <p>Best regards,<br>
         
@@ -180,9 +180,9 @@ module.exports.bookingRecievedEmail = ( bookingId, name, email, roomId) => {
 
     transport
       .sendMail({
-        from: "Swift Jet Support",
+        from: "Juwsheyaj Hotels",
         to: email,
-        subject: "Your booking details",
+        subject: "Your booking details - Juwsheyaj Hotels",
         html: `<html>
         <head>
           <meta charset="UTF-8">
@@ -282,6 +282,11 @@ module.exports.bookingRecievedEmail = ( bookingId, name, email, roomId) => {
           </table>
           <br>
           <br>
+          <p>For any further assistance or if you have any questions, please don't hesitate to contact our support team. We're available  24/7 and will be happy to assist you.</p>
+          <p>Thank you for choosing Juwsheyaj Hotel. We appreciate your cooperation in maintaining the security of your account.</p>
+          <p>Best regards,<br>
+        
+          Juwsheyaj Hotel Support Team</p>
           <br>
           </div>
           
