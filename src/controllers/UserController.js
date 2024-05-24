@@ -1,6 +1,7 @@
 // controllers/userController.js
 const userService = require("../services/UserService");
 const nodemailer = require("../config/nodemailer");
+const UserService = require("../services/UserService");
 
 class UserController {
   async createUser(req, res, next) {
@@ -51,10 +52,14 @@ class UserController {
       if (!email) {
         return res.status(400).json({ message: "Please provide an email address" });
       }
+      const user = await userService.getUserByEmail(email);
+      if (!user) {
+        return res.status(400).json({ message: "User does not exist" });
+      }
       const message = await userService.saveResetToken(email);
       res.json({ message });
     } catch (error) {
-      next(error);
+      res.status(500).json({ error }); // Return appropriate error response
     }
   }
 

@@ -16,7 +16,9 @@ class UserService {
 
   async getUserByEmail(email) {
     try {
+      console.log({email});
       const user = await User.findOne({ email });
+
       return user;
     } catch (error) {
       throw error;
@@ -54,7 +56,9 @@ class UserService {
       const user = await this.getUserByEmail(email);
   
       if (!user) {
-        return "Email doesn't exist"
+        return {
+          error: "User does not exist"
+        }
       }
   
       // Check if there's an existing reset token for the user
