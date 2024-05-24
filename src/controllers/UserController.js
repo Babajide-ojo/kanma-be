@@ -1,5 +1,6 @@
 // controllers/userController.js
 const userService = require("../services/UserService");
+const nodemailer = require("../config/nodemailer");
 
 class UserController {
   async createUser(req, res, next) {
@@ -37,7 +38,7 @@ class UserController {
   async getAllUsers(req, res, next) {
     try {
       const users = await userService.getAllUsers();
-      console.log({users});
+      console.log({ users });
       res.json(users);
     } catch (error) {
       next(error);
@@ -46,21 +47,39 @@ class UserController {
 
   async requestPasswordReset(req, res, next) {
     try {
-        const { email } = req.body;
+      const { email } = req.body;
 
-        // Validate email
-        if (!email) {
-            return res.status(400).json({ message: "Please provide an email address" });
-        }
+      // Validate email
+      if (!email) {
+        return res.status(400).json({ message: "Please provide an email address" });
+      }
 
-        // Save/reset token with user's email
-        await userService.saveResetToken(email);
-
-        res.json({ message: "Password reset email sent successfully" });
+      // Save/reset token with user's email
+      await userService.saveResetToken(email);
+   
+      res.json({ message: "Password reset email sent successfully" });
     } catch (error) {
-        next(error);
+      next(error);
     }
-}
+  }
+
+  async updatePassword(req, res, next) {
+    try {
+      const { newPassword, token } = req.body;
+
+      // Validate request body
+      if (!newPassword || !token) {
+        return res.status(400).json({ message: "Please provide all required fields" });
+      }
+
+      // Update password
+      await userService.updatePassword(newPassword, token);
+
+      res.json({ message: "Password updated successfully" });
+    } catch (error) {
+      next(error);
+    }
+  }
 
   // Add more controller methods as needed
 }

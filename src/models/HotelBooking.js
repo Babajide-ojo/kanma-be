@@ -4,6 +4,9 @@ const hotelBookingSchema = new mongoose.Schema({
     userDetails: {
         type: Object
     },
+    bookingId: {
+        type: String
+    },
     email: {
         type: String,
         required: true
@@ -16,7 +19,8 @@ const hotelBookingSchema = new mongoose.Schema({
         type: Number,
         required: true
     }
-}, { timestamps: true }); // This line adds createdAt and updatedAt fields
+}, 
+{ timestamps: true }); 
 
 const Booking = mongoose.model("Booking", hotelBookingSchema);
 

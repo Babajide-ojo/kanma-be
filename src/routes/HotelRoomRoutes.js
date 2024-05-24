@@ -14,4 +14,10 @@ router.get("/all", hotelRoomController.getAllHotels);
 router.get("/user-bookings", hotelRoomController.getAllBookingsByEmail);
 router.get("/bookings", hotelRoomController.getAllBookings);
 
+// Routes for retrieving hotel room and booking by ID
+router.get("/:roomId", hotelRoomController.getHotelRoomById);
+router.get("/booking/:bookingId", hotelRoomController.getBookingById);
+
+router.put("/:roomId", upload.array("images", 5), hotelRoomController.updateHotelRoom);
+router.delete("/:roomId", hotelRoomController.deleteHotelRoom);
 module.exports = router;

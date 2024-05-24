@@ -8,13 +8,10 @@ class AuthController {
     async login(req, res, next) {
         try {
             const { email, password } = req.body;
-
-            // Validate email and password
             if (!email || !password) {
                 return res.status(400).json({ message: "Please provide email and password" });
             }
 
-            // Find user by email
             const user = await userService.getUserByEmail(email);
             if (!user) {
                 return res.status(401).json({ message: "Invalid email or password" });

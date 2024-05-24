@@ -28,7 +28,10 @@ const hotelRoomSchema = new mongoose.Schema({
         type: Boolean,
         default: true // Default availability to true
     }
-});
+}, { timestamps: true }
+
+);
+
 
 // Auto-increment room ID before saving
 hotelRoomSchema.pre("save", async function (next) {

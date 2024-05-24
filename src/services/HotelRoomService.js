@@ -1,6 +1,7 @@
 // services/hotelRoomService.js
 const HotelRoom = require("../models/HotelRoom");
 const Booking = require("../models/HotelBooking")
+const nodemailer = require("../config/nodemailer")
 
 class HotelRoomService {
   async createHotelRoom(roomData) {
@@ -18,6 +19,7 @@ class HotelRoomService {
   async createBooking(payload) {
     try {
       const bookingDetails = await Booking.create(payload);
+       nodemailer.bookingRecievedEmail(bookingDetails.bookingId, bookingDetails.userDetails.firstName, bookingDetails.userDetails.email, bookingDetails.roomDetails.roomId)
       return bookingDetails;
     } catch (error) {
       throw error;
@@ -50,6 +52,61 @@ class HotelRoomService {
       throw error;
     }
   }
+
+  async getHotelRoomById(roomId) {
+    try {
+      const room = await HotelRoom.findById(roomId);
+      if (!room) {
+        throw new Error('Hotel room not found');
+      }
+      return room;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getBookingById(bookingId) {
+    try {
+      const booking = await Booking.findById(bookingId);
+      if (!booking) {
+        throw new Error('Booking not found');
+      }
+      return booking;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async updateHotelRoom(roomId, updatedRoomData) {
+    console.log({roomId, updatedRoomData});
+    try {
+      const room = await HotelRoom.findById(roomId);
+      if (!room) {
+        throw new Error('Hotel room not found');
+      }
+
+      Object.assign(room, updatedRoomData);
+      await room.save();
+      return room;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async deleteHotelRoom(roomId) {
+    try {
+      const room = await HotelRoom.findById(roomId);
+      if (!room) {
+        throw new Error('Hotel room not found');
+      }
+      // Remove the room from the database
+      await room.remove();
+      return { message: 'Hotel room deleted successfully' };
+    } catch (error) {
+      throw error;
+    }
+  }
+
 }
 
 module.exports = new HotelRoomService();
