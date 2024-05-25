@@ -19,6 +19,7 @@ class HotelRoomService {
   async createBooking(payload) {
     try {
       const bookingDetails = await Booking.create(payload);
+
        nodemailer.bookingRecievedEmail(bookingDetails.bookingId, bookingDetails.userDetails.firstName, bookingDetails.userDetails.email, bookingDetails.roomDetails.roomId)
       return bookingDetails;
     } catch (error) {
@@ -119,6 +120,21 @@ class HotelRoomService {
       await booking.save();
 
       return booking;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async updateRoomStatus(roomId, newStatus) {
+    try {
+      const room = await HotelRoom.findById(roomId);
+      if (!room) {
+        throw new Error('Room not found');
+      }
+      room.availability = newStatus;
+      await room.save();
+
+      return room;
     } catch (error) {
       throw error;
     }

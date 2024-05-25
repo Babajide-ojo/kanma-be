@@ -19,5 +19,6 @@ router.get("/:roomId", hotelRoomController.getHotelRoomById);
 router.get("/booking/:bookingId", hotelRoomController.getBookingById);
 
 router.put("/:roomId", upload.array("images", 5), hotelRoomController.updateHotelRoom);
+router.put("/booking/:bookingId", hotelRoomController.updateBookingStatus);
 router.delete("/:roomId", hotelRoomController.deleteHotelRoom);
 module.exports = router;

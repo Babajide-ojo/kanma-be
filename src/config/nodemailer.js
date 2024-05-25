@@ -14,7 +14,7 @@ module.exports.sendConfirmationEmail = (name, email) => {
     .sendMail({
       from: "Juwshewaj",
       to: email,
-      subject: "You just signed up on Juwshewaj",
+      subject: "You just signed up on Juwsheyaj",
       html: `<html>
       <head>
         <meta charset="UTF-8" />
@@ -109,7 +109,7 @@ module.exports.sendConfirmationEmail = (name, email) => {
 module.exports.forgotPasswordEmail = (name, email, resetToken) => {
   transport
     .sendMail({
-      from: "Juwshewaj Hotels",
+      from: "Juwsheyaj Hotels",
       to: email,
       subject: "Password Reset Code",
       html: ` <html>
@@ -270,7 +270,7 @@ module.exports.bookingRecievedEmail = ( bookingId, name, email, roomId) => {
         <body>
 
           <p>Dear ${name},</p>
-          <p> Your room booking with ID - ${roomId} has been confirmed with the following details:</p>
+          <p> Your room booking with ID has been recieved with the following details:</p>
           <br>
           <br>
           <br>
@@ -298,6 +298,254 @@ module.exports.bookingRecievedEmail = ( bookingId, name, email, roomId) => {
       `,
       })
       .catch((err) => console.log(err));
+};
+
+module.exports.bookingConfirmedEmail = ( bookingId, name, email, roomId) => {
+
+  transport
+    .sendMail({
+      from: "Juwsheyaj Hotels",
+      to: email,
+      subject: "Your booking is confirmed!",
+      html: `<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>Complaint Logged</title>
+        <style>
+          /* CSS styles */
+          body {
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+            color: #333;
+          }
+          h1 {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 16px;
+            color: #fff;
+            background-color: #881337;
+            padding: 16px;
+            text-align: center;
+          }
+          p {
+            margin: 0 0 16px;
+          }
+          table {
+            border-collapse: collapse;
+            width: 100%;
+          }
+          th, td {
+            padding: 8px;
+            text-align: left;
+            vertical-align: middle;
+          }
+          th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+          }
+          tr:hover {
+            background-color: #f5f5f5;
+          }
+          a {
+            color: #881337;
+            text-decoration: none;
+          }
+          a:hover {
+            text-decoration: underline;
+          }
+          .button {
+            display: inline-block;
+            padding: 8px 16px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #881337;
+            border-radius: 4px;
+            text-decoration: none;
+            text-align: center;
+            transition: background-color 0.3s;
+          }
+          .button:hover {
+            background-color: #881337;
+          }
+          .footer {
+            background-color: #f2f2f2;
+            color: #666;
+            font-size: 14px;
+            padding: 16px;
+            text-align: center;
+          }
+          .footer a {
+            color: #333;
+            text-decoration: none;
+          }
+          .footer a:hover {
+            text-decoration: underline;
+          }
+          .tracking-link{
+            text-align:center;
+          }
+        </style>
+      </head>
+      <body>
+
+        <p>Dear ${name},</p>
+        <p> Your room booking has been confirmed with the following details:</p>
+        <br>
+        <br>
+        <br>
+        <table>
+          <tr>
+            <th style="background-color: #f2f2f2; font-weight: bold;">Your booking ID is ${bookingId}</th>
+            <td></td>
+          </tr>
+        </table>
+        <br>
+        <br>
+        <p>For any further assistance or if you have any questions, please don't hesitate to contact our support team. We're available  24/7 and will be happy to assist you.</p>
+        <p>Thank you for choosing Juwsheyaj Hotel. We appreciate your cooperation in maintaining the security of your account.</p>
+        <p>Best regards,<br>
+      
+        Juwsheyaj Hotel Support Team</p>
+        <br>
+        </div>
+        
+          </body>
+        </html>
+    
+    
+    
+    `,
+    })
+    .catch((err) => console.log(err));
+};
+
+module.exports.bookingCancelledEmail = ( bookingId, name, email, roomId) => {
+
+  transport
+    .sendMail({
+      from: "Juwsheyaj Hotels",
+      to: email,
+      subject: "Your booking has been cancelled!",
+      html: `<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>Complaint Logged</title>
+        <style>
+          /* CSS styles */
+          body {
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+            color: #333;
+          }
+          h1 {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 16px;
+            color: #fff;
+            background-color: #881337;
+            padding: 16px;
+            text-align: center;
+          }
+          p {
+            margin: 0 0 16px;
+          }
+          table {
+            border-collapse: collapse;
+            width: 100%;
+          }
+          th, td {
+            padding: 8px;
+            text-align: left;
+            vertical-align: middle;
+          }
+          th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+          }
+          tr:hover {
+            background-color: #f5f5f5;
+          }
+          a {
+            color: #881337;
+            text-decoration: none;
+          }
+          a:hover {
+            text-decoration: underline;
+          }
+          .button {
+            display: inline-block;
+            padding: 8px 16px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #881337;
+            border-radius: 4px;
+            text-decoration: none;
+            text-align: center;
+            transition: background-color 0.3s;
+          }
+          .button:hover {
+            background-color: #881337;
+          }
+          .footer {
+            background-color: #f2f2f2;
+            color: #666;
+            font-size: 14px;
+            padding: 16px;
+            text-align: center;
+          }
+          .footer a {
+            color: #333;
+            text-decoration: none;
+          }
+          .footer a:hover {
+            text-decoration: underline;
+          }
+          .tracking-link{
+            text-align:center;
+          }
+        </style>
+      </head>
+      <body>
+
+        <p>Dear ${name},</p>
+        <p> Your room booking has been cancelled with the following details:</p>
+        <br>
+        <br>
+        <br>
+        <table>
+          <tr>
+            <th style="background-color: #f2f2f2; font-weight: bold;">Your booking ID is ${bookingId}</th>
+            <td></td>
+          </tr>
+        </table>
+        <br>
+        <br>
+        <p>For any further assistance or if you have any questions, please don't hesitate to contact our support team. We're available  24/7 and will be happy to assist you.</p>
+        <p>Thank you for choosing Juwsheyaj Hotel. We appreciate your cooperation in maintaining the security of your account.</p>
+        <p>Best regards,<br>
+      
+        Juwsheyaj Hotel Support Team</p>
+        <br>
+        </div>
+        
+          </body>
+        </html>
+    
+    
+    
+    `,
+    })
+    .catch((err) => console.log(err));
 };
 
 module.exports.complainResolvedEmail = (email, bookingId, name) => {
