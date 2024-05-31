@@ -42,7 +42,7 @@ class HotelRoomController {
 
   async updateHotelRoom(req, res, next) {
     const { roomId } = req.params;
-    const { roomName, roomType, price, amenities } = req.body;
+    const { roomName, roomType, price, amenities , availability} = req.body;
     console.log({ roomName });
 
     try {
@@ -60,6 +60,9 @@ class HotelRoomController {
       }
       if (amenities) {
         updatedRoomData.amenities = amenities;
+      }
+      if (availability) {
+        updatedRoomData.availability = availability;
       }
       if (req.files && req.files.length > 0) {
         for (const file of req.files) {
