@@ -13,8 +13,8 @@ class UserController {
       }
 
       // Validate request body
-      const { firstName, lastName, email, password } = req.body;
-      if (!firstName || !lastName || !email || !password) {
+      const { firstName, lastName, email, password, role } = req.body;
+      if (!firstName || !lastName || !email || !password || !role) {
         return res.status(400).json({ message: "Please provide all required fields" });
       }
 

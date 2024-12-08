@@ -29,6 +29,10 @@ const UserSchema = new mongoose.Schema({
     enum: ["Active", "Inactive", "active", "inactive"],
     default: "Active"
   },
+  role: {
+    type: String,
+    enum: ["seller", "buyer"],
+  }
 });
 
 UserSchema.set("timestamps", true);
