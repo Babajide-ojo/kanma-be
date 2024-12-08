@@ -100,8 +100,7 @@ class HotelRoomService {
       if (!room) {
         throw new Error('Hotel room not found');
       }
-      // Remove the room from the database
-      await room.remove();
+      await HotelRoom.deleteOne({ _id: roomId });
       return { message: 'Hotel room deleted successfully' };
     } catch (error) {
       throw error;

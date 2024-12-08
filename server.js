@@ -5,6 +5,8 @@ const db = require("./src/config/db")
 const userRoutes = require("./src/routes/UserRoutes")
 const authRoutes = require("./src/routes/AuthRoutes")
 const hotelRoutes = require("./src/routes/HotelRoomRoutes")
+require('colors');
+
 
 const app = express();
 
@@ -25,10 +27,10 @@ app.get("/", (req, res) => {
     res.send("Server is healthy")
 })
 
-app.use("/api", userRoutes);
+app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/rooms", hotelRoutes)
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`.blue);
 });

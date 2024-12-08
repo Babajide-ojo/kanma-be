@@ -22,7 +22,7 @@ const hotelBookingSchema = new mongoose.Schema({
     status: {
         type: String,
         enum: ["pending", "confirmed", "cancelled", "completed"], // Define the possible values for status
-        default: "pending"
+        default: "pending"  
     }
 }, 
 { timestamps: true }); 
@@ -30,3 +30,11 @@ const hotelBookingSchema = new mongoose.Schema({
 const Booking = mongoose.model("Booking", hotelBookingSchema);
 
 module.exports = Booking;
+
+
+/*
+    userDeatails: {"email": "trevorgrillo45@gmail.com", "name": "Trevor Grillo"},
+    "roomDetails": {"roomType": "Deluxe", "amenities": ["Wifi, AC, FreeDinner"]},
+    "email": "samuelbonux10@gmail.com",
+    "total_price": 350,
+ */

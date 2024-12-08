@@ -44,7 +44,7 @@ class HotelRoomController {
     const { roomId } = req.params;
     const { roomName, roomType, price, amenities , availability} = req.body;
     console.log({ roomName });
-
+    
     try {
       let updatedImages = [];
       let updatedRoomData = {}
@@ -81,19 +81,29 @@ class HotelRoomController {
 
   async createBooking(req, res, next) {
     try {
-      const { userDetails, roomDetails, total_price } = req.body;
-      if (!total_price || !userDetails || !roomDetails) {
-        return res.status(400).json({ message: "userDetails, roomDetails, total_price are required" });
+      const { userDetails, email, room, total_price } = req.body;
+      if (!total_price || !userDetails || !room ||!email) {
+        return res.status(400).json({ message: "userDetails, roomDetails, total_price and email are required" });
       }
 
       // Generate a random 8-digit booking ID
       const bookingId = Math.floor(10000000 + Math.random() * 90000000);
+      const roomDetails = await HotelRoomService.getHotelRoomById(room)
 
       // Add the generated booking ID to the request body
-      const bookingData = { ...req.body, bookingId };
+      const bookingData = { 
+        userDetails,
+        bookingId,
+        email,
+        roomDetails,
+        total_price
+       };
+
+      console.log(bookingData);
 
       const booking = await HotelRoomService.createBooking(bookingData);
-      const roomUpdate = await HotelRoomService.updateRoomStatus(roomDetails?.roomType?._id, false);
+      // const roomUpdate = await HotelRoomService.updateRoomStatus(roomDetails?.roomType?._id, false);
+      const roomUpdate = await HotelRoomService.updateRoomStatus(room, false);
       res.status(201).json(booking);
     } catch (error) {
       next(error);
@@ -113,8 +123,8 @@ class HotelRoomController {
   async getAllBookingsByEmail(req, res, next) {
     const { email } = req.query
     try {
-      const hotels = await hotelServices.getAllBookingsByEmail(email);
-      res.json(hotels);
+      const bookings = await hotelServices.getAllBookingsByEmail(email);
+      res.json(bookings);
     } catch (error) {
       next(error);
     }
@@ -132,6 +142,7 @@ class HotelRoomController {
 
   async getHotelRoomById(req, res, next) {
     const { roomId } = req.params;
+    console.log(roomId);
     try {
       const room = await HotelRoomService.getHotelRoomById(roomId);
       res.json(room);

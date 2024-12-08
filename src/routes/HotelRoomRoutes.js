@@ -8,17 +8,16 @@ const hotelRoomController = require("../controllers/HotelRoomController");
 const upload = multer({ dest: "uploads/" });
 
 // POST /api/hotel-rooms
-router.post("/create", upload.array("images", 5), hotelRoomController.createHotelRoom);
-router.post("/create-booking", hotelRoomController.createBooking);
-router.get("/all", hotelRoomController.getAllHotels);
-router.get("/user-bookings", hotelRoomController.getAllBookingsByEmail);
-router.get("/bookings", hotelRoomController.getAllBookings);
+router.post("/create", upload.array("images", 5), hotelRoomController.createHotelRoom);//
+router.post("/create-booking", hotelRoomController.createBooking);//
+router.get("/all", hotelRoomController.getAllHotels);//
+router.get("/user-bookings", hotelRoomController.getAllBookingsByEmail);//
+router.get("/bookings", hotelRoomController.getAllBookings);//
+router.get("/booking/:bookingId", hotelRoomController.getBookingById);
+router.put("/booking/:bookingId", hotelRoomController.updateBookingStatus);
 
 // Routes for retrieving hotel room and booking by ID
-router.get("/:roomId", hotelRoomController.getHotelRoomById);
-router.get("/booking/:bookingId", hotelRoomController.getBookingById);
-
-router.put("/:roomId", upload.array("images", 5), hotelRoomController.updateHotelRoom);
-router.put("/booking/:bookingId", hotelRoomController.updateBookingStatus);
-router.delete("/:roomId", hotelRoomController.deleteHotelRoom);
+router.get("/room/:roomId", hotelRoomController.getHotelRoomById);
+router.put("/room/:roomId", upload.array("images", 5), hotelRoomController.updateHotelRoom);
+router.delete("/room/:roomId", hotelRoomController.deleteHotelRoom);
 module.exports = router;

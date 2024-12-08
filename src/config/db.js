@@ -1,14 +1,12 @@
 const mongoose = require("mongoose");
 mongoose.set('strictQuery', true);
+require('colors');
 
 // connect to db based on environment
 module.exports.connectDB = async () => {
-    await mongoose.connect("mongodb+srv://Babajide:Maythird1.!@cluster0.azxmr.mongodb.net/juwsheyaj?retryWrites=true&w=majority&appName=Cluster0", {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log("db connected");
-};
+    await mongoose.connect("mongodb+srv://Babajide:Maythird1.!@cluster0.azxmr.mongodb.net/juwsheyaj?retryWrites=true&w=majority&appName=Cluster0");
+      console.log("db connected".blue);
+  };
 
 // Disconnect db
 module.exports.closeDatabase = async () => {
