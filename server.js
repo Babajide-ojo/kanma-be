@@ -4,7 +4,7 @@ const cors = require('cors');
 const db = require("./src/config/db")
 const userRoutes = require("./src/routes/UserRoutes")
 const authRoutes = require("./src/routes/AuthRoutes")
-const hotelRoutes = require("./src/routes/HotelRoomRoutes")
+const productsOrderRoutes = require("./src/routes/ProductOrderRoute")
 require('colors');
 
 
@@ -29,7 +29,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
-app.use("/api/rooms", hotelRoutes)
+app.use("/api/prd-ord", productsOrderRoutes)
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`.blue);
