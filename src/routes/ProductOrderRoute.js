@@ -14,7 +14,7 @@ router.delete("/:productId", productController.deleteProduct);
 
 router.post("/create-order", productController.createOrder);
 router.get("/orders/user", productController.getAllOrdersByUser);
-router.get("/orders", productController.getAllOrders);  
+router.get("/orders/all", productController.getAllOrders);  
 router.get("/orders/:orderId", productController.getOrderById);
 router.put("/orders/:orderId", productController.updateOrderStatus);
 
