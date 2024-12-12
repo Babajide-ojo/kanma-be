@@ -2,6 +2,7 @@ const Product = require("../models/Product");
 const cloudinaryService = require("../services/CloudinaryService");
 const ProductOrderService = require("../services/ProductsOrderServices");
 const nodemailer = require("../config/nodemailer");
+const { successResponse, errorResponse } = require("../utils/response");
 
 class ProductOrderController {
   async createProduct(req, res, next) {
@@ -9,7 +10,7 @@ class ProductOrderController {
     try {
       const { productName, price, stockQty, description } = req.body;
       if (!productName || !price || !stockQty) {
-        return res.status(400).json({ message: "Product name, price, and stock quantity are required" });
+        return errorResponse(res, 400, "Product name, price, and stock quantity are required");
       }
 
       let images = [];
@@ -22,18 +23,18 @@ class ProductOrderController {
         productName,
         price,
         stockQty,
-        images,
+        images, 
         description,
         seller: sellerId,
       });
 
-      res.status(201).json(product);
+      return successResponse(res, 201, "Product created successfully", product);
     } catch (error) {
-      next(error);
+      return errorResponse(res, 500, error.message);
     }
   }
 
-  async   updateProduct(req, res, next) {
+  async updateProduct(req, res, next) {
     const { productId } = req.params;
     const { productName, price, stockQty } = req.body;
     try {
@@ -53,38 +54,39 @@ class ProductOrderController {
       }
 
       const updatedProduct = await ProductOrderService.updateProduct(productId, updatedProductData);
-      res.json(updatedProduct);
+      return successResponse(res, 200, "Product updated successfully", updatedProduct);
     } catch (error) {
-      next(error);
+      console.log(error);
+      return errorResponse(res, 500, error.message);
     }
   }
 
   async createOrder(req, res, next) {
     try {
-      const { userId, items, paymentMethod, shippingAddress } = req.body;
-      if (!userId || !items  || !paymentMethod || !shippingAddress) {
-        return res.status(400).json({ message: "All order details are required" });
+      const { userId, item, paymentMethod, shippingAddress } = req.body;
+      if (!userId || !item || !paymentMethod || !shippingAddress) {
+        return errorResponse(res, 400, "All order details are required");
       }
 
       const order = await ProductOrderService.createOrder({
         userId,
-        items,
+        item,
         paymentMethod,
         shippingAddress,
-      }); 
+      });
 
-      res.status(201).json(order);
+      return successResponse(res, 201, "Order created successfully", order);
     } catch (error) {
-      next(error);
+      return errorResponse(res, 500, error.message);
     }
   }
 
   async getAllProducts(req, res, next) {
     try {
       const products = await ProductOrderService.getAllProducts();
-      res.json(products);
+      return successResponse(res, 200, "Products retrieved successfully", products);
     } catch (error) {
-      next(error);
+      return errorResponse(res, 500, error.message);
     }
   }
 
@@ -92,9 +94,9 @@ class ProductOrderController {
     const { userId } = req.query;
     try {
       const orders = await ProductOrderService.getOrdersByUserId(userId);
-      res.json(orders);
+      return successResponse(res, 200, "Orders retrieved successfully", orders);
     } catch (error) {
-      next(error);
+      return errorResponse(res, 500, error.message);
     }
   }
 
@@ -102,9 +104,9 @@ class ProductOrderController {
     const { productId } = req.params;
     try {
       const product = await ProductOrderService.getProductById(productId);
-      res.json(product);
+      return successResponse(res, 200, "Product retrieved successfully", product);
     } catch (error) {
-      next(error);
+      return errorResponse(res, 500, error.message);
     }
   }
 
@@ -112,9 +114,9 @@ class ProductOrderController {
     const { productId } = req.params;
     try {
       const result = await ProductOrderService.deleteProduct(productId);
-      res.json(result);
+      return successResponse(res, 200, "Product deleted successfully", result);
     } catch (error) {
-      next(error);
+      return errorResponse(res, 500, error.message);
     }
   }
 
@@ -133,9 +135,9 @@ class ProductOrderController {
         nodemailer.orderConfirmedEmail(order);
       }
 
-      res.json(updatedOrder);
+      return successResponse(res, 200, "Order status updated successfully", updatedOrder);
     } catch (error) {
-      next(error);
+      return errorResponse(res, 500, error.message);
     }
   }
 
@@ -143,22 +145,52 @@ class ProductOrderController {
     try {
       const orders = await ProductOrderService.getAllOrders();
       if (!orders.length) {
-        return res.status(404).json({ message: "No orders found" });
+        return errorResponse(res, 404, "No orders found");
       }
-      res.json(orders);
+      return successResponse(res, 200, "Orders retrieved successfully", orders);
     } catch (error) {
-      next(error);
+      return errorResponse(res, 500, error.message);
     }
   }
 
-
-  async getOrderById(req, res, next){
+  async getOrderById(req, res, next) {
     const { orderId } = req.params;
-    try{
-      const orders = await ProductOrderService.getOrderById(orderId);
-      res.json(orders);
-    }catch(error){
-      next(error);
+    try {
+      const order = await ProductOrderService.getOrderById(orderId);
+      return successResponse(res, 200, "Order retrieved successfully", order);
+    } catch (error) {
+      return errorResponse(res, 500, error.message);
+    }
+  }
+
+  async getProductsBySeller(req, res, next) {
+    const { sellerId } = req.params;
+    try {
+      const products = await ProductOrderService.getProductsBySeller(sellerId);
+
+      if (!products.length) {
+        return errorResponse(res, 404, "No products found for this seller");
+      }
+
+      return successResponse(res, 200, "Products retrieved successfully", products);
+    } catch (error) {
+      return errorResponse(res, 500, error.message);
+    }
+  }
+
+  async getOrdersByVendor(req, res, next) {
+    const { vendorId } = req.params;
+
+    try {
+      const orders = await ProductOrderService.getOrdersByVendor(vendorId);
+
+      if (!orders.length) {
+        return successResponse(res, 404, "No orders found for this vendor", []);
+      }
+
+      return successResponse(res, 200, "Orders fetched successfully", orders);
+    } catch (error) {
+      return errorResponse(res, 500, "Error fetching orders for vendor", error.message);
     }
   }
 }

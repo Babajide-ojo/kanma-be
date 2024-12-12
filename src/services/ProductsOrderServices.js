@@ -1,6 +1,7 @@
 const Product = require("../models/Product");
 const Order = require("../models/Order");
 const UserService = require("./UserService");
+const mongoose = require('mongoose');
 
 class ProductService {
   async createProduct(productData) {
@@ -62,12 +63,12 @@ class ProductService {
   }
 
   async createOrder(orderData) {
-  try {
-    const user = await UserService.getUserById(orderData.userId);
-    const items = orderData.items;
-    let totalPrice = 0;
+    try {
+      const user = await UserService.getUserById(orderData.userId);
+      const item = orderData.item;
+      let totalPrice = 0;
 
-    for (let item of items) {
+
       const product = await Product.findById(item.productId);
       if (!product || product.stockQty < item.quantity) {
         throw new Error(`Product ${item.productId} is not available in the requested quantity`);
@@ -75,21 +76,20 @@ class ProductService {
       product.stockQty -= item.quantity;
       await product.save();
       totalPrice += product.price * item.quantity;
-    }
 
-    const order = await Order.create({
-      userId: orderData.userId,
-      email: user.email,
-      items: orderData.items,
-      total_price: totalPrice,
-      paymentMethod: orderData.paymentMethod,
-      shippingAddress: orderData.shippingAddress,
-    });
-    return order;
-  } catch (error) {
-    throw error;
+      const order = await Order.create({
+        userId: orderData.userId,
+        email: user.email,
+        item: orderData.item,
+        total_price: totalPrice,
+        paymentMethod: orderData.paymentMethod,
+        shippingAddress: orderData.shippingAddress,
+      });
+      return order;
+    } catch (error) {
+      throw error;
+    }
   }
-}
 
   async getAllOrders() {
     try {
@@ -129,10 +129,43 @@ class ProductService {
 
   async getOrdersByUserId(userId) {
     try {
-      const orders = await Order.find({ userId }).populate("items.productId", "productName price");
+      const orders = await Order.find({ userId }).populate("item.productId", "productName price");
       return orders;
     } catch (error) {
       throw new Error("Error fetching orders by user ID: " + error.message);
+    }
+  }
+
+  async getProductsBySeller(sellerId) {
+    try {
+      if (!mongoose.Types.ObjectId.isValid(sellerId)) {
+        throw new Error("Invalid seller ID");
+      }
+
+      const products = await Product.find({ seller: sellerId });
+      return products;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getOrdersByVendor(vendorId) {
+    try {
+      const orders = await Order.find()
+        .populate({
+          path: "item.productId",
+          model: "Product",
+          select: "seller productName price",
+        })
+        .exec();
+
+      const filteredOrders = orders.filter(
+        (order) => order.item.productId && order.item.productId.seller.toString() === vendorId
+      );
+
+      return filteredOrders;
+    } catch (error) {
+      throw error;
     }
   }
 }
