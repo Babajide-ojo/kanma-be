@@ -3,6 +3,8 @@ const cloudinaryService = require("../services/CloudinaryService");
 const ProductOrderService = require("../services/ProductsOrderServices");
 const nodemailer = require("../config/nodemailer");
 const { successResponse, errorResponse } = require("../utils/response");
+const UserService = require("../services/UserService");
+const User = require("../models/User");
 
 class ProductOrderController {
   async createProduct(req, res, next) {
@@ -123,20 +125,21 @@ class ProductOrderController {
   }
 
   async updateOrderStatus(req, res, next) {
+    console.log('reached controller');
     const { orderId } = req.params;
     const { status } = req.body;
     try {
       const updatedOrder = await ProductOrderService.updateOrderStatus(orderId, status);
       const order = await ProductOrderService.getOrderById(orderId);
 
+      const user = await UserService.getUserById(order.userId);
       if (status === "cancelled") {
-        nodemailer.orderCancelledEmail(order);
+        nodemailer.orderCancelledEmail(user.firstName, order.email, order.orderId);
       }
 
       if (status === "confirmed") {
-        nodemailer.orderConfirmedEmail(order);
+        nodemailer.orderConfirmedEmail(user.firstName, order.email, order.orderId);
       }
-
       return successResponse(res, 200, "Order status updated successfully", updatedOrder);
     } catch (error) {
       return errorResponse(res, 500, error.message);

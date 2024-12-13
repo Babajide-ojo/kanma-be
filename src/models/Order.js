@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const User = require("./User");
+const { v4: uuidv4 } = require("uuid");
 
 const orderSchema = new mongoose.Schema({
     userId: {
@@ -54,20 +55,28 @@ const orderSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-orderSchema.pre("save", async function (next) {
+// orderSchema.pre("save", async function (next) {
+//     if (!this.isNew) {
+//         return next();
+//     }
+//     try {
+//         const latestOrder = await this.constructor
+//             .findOne({}, { orderId: 1 })
+//             .sort({ orderId: -1 });
+//         const newOrderId = latestOrder ? `ORD-${latestOrder.orderId.split('-')[1] * 1 + 1}` : "ORD-1";
+//         this.orderId = newOrderId;
+//         next();
+//     } catch (error) {
+//         next(error);
+//     }
+// });
+
+orderSchema.pre("save", function (next) {
     if (!this.isNew) {
         return next();
     }
-    try {
-        const latestOrder = await this.constructor
-            .findOne({}, { orderId: 1 })
-            .sort({ orderId: -1 });
-        const newOrderId = latestOrder ? `ORD-${latestOrder.orderId.split('-')[1] * 1 + 1}` : "ORD-1";
-        this.orderId = newOrderId;
-        next();
-    } catch (error) {
-        next(error);
-    }
+    this.orderId = `ORD-${uuidv4()}`;
+    next();
 });
 
 const Order = mongoose.model("Order", orderSchema);

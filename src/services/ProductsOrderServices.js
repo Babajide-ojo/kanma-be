@@ -126,6 +126,7 @@ class ProductService {
   }
 
   async updateOrderStatus(orderId, newStatus) {
+    console.log('reached service');
     try {
       const order = await Order.findById(orderId);
       if (!order) {
@@ -163,24 +164,36 @@ class ProductService {
   }
 
   async getOrdersByVendor(vendorId) {
-    try {
-      const orders = await Order.find()
-        .populate({
-          path: "item.productId",
-          model: "Product",
-          select: "seller productName price",
-        })
-        .exec();
+      try {
+          const orders = await Order.find()
+              .populate({
+                  path: "item.productId",
+                  model: "Product",
+                  select: "productName price",
+              })
+              .populate({
+                  path: "item.vendorId",
+                  model: "User",
+                  select: "name email",
+              })
+              .exec();
 
-      const filteredOrders = orders.filter(
-        (order) => order.item.productId && order.item.productId.seller.toString() === vendorId
-      );
+          // Filter orders to include only relevant items for the given vendor
+          const filteredOrders = orders
+              .map((order) => ({
+                  ...order.toObject(),
+                  item: order.item.filter(
+                      (item) => item.vendorId && item.vendorId._id.toString() === vendorId
+                  ),
+              }))
+              .filter((order) => order.item.length > 0); // Retain only orders with items for this vendor
 
-      return filteredOrders;
-    } catch (error) {
-      throw error;
-    }
+          return filteredOrders;
+      } catch (error) {
+          throw error;
+      }
   }
+
 }
 
 module.exports = new ProductService();

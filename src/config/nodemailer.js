@@ -12,9 +12,9 @@ const transport = nodemailer.createTransport({
 module.exports.sendConfirmationEmail = (name, email) => {
   transport
     .sendMail({
-      from: "Juwshewaj",
+      from: "Kanma",
       to: email,
-      subject: "You just signed up on Juwsheyaj",
+      subject: "You just signed up on Kanma",
       html: `<html>
       <head>
         <meta charset="UTF-8" />
@@ -98,7 +98,7 @@ module.exports.sendConfirmationEmail = (name, email) => {
    
           <div class="sender">
          
-            Email: support@Juwshewaj.com
+            Email: support@Kanma.com
           </div>
         </div>
       </body>
@@ -109,7 +109,7 @@ module.exports.sendConfirmationEmail = (name, email) => {
 module.exports.forgotPasswordEmail = (name, email, resetToken) => {
   transport
     .sendMail({
-      from: "Juwsheyaj Hotels",
+      from: "Kanma",
       to: email,
       subject: "Password Reset Code",
       html: ` <html>
@@ -155,7 +155,7 @@ module.exports.forgotPasswordEmail = (name, email, resetToken) => {
       </head>
       <body>
         <div class="container">
-          <h1>Reset Your Password - Juwsheyaj Hotel</h1>
+          <h1>Reset Your Password - Kanma</h1>
           <p>Dear ${name},</p>
           <p>We received a request to reset your password for your account. Don't worry; we're here to help you regain access to your account. Please follow the instructions below to reset your password</p>
           <br>
@@ -166,10 +166,10 @@ module.exports.forgotPasswordEmail = (name, email, resetToken) => {
 
           <p>If you did not request a password reset, or if you believe this email was sent to you by mistake, please disregard this message. Your account remains secure, and no changes have been made.</p>
           <p>For any further assistance or if you have any questions, please don't hesitate to contact our support team. We're available  24/7 and will be happy to assist you.</p>
-          <p>Thank you for choosing Juwsheyaj Hotel. We appreciate your cooperation in maintaining the security of your account.</p>
+          <p>Thank you for choosing Kanma. We appreciate your cooperation in maintaining the security of your account.</p>
           <p>Best regards,<br>
         
-          Juwsheyaj Hotel Support Team</p>
+          Kanma Support Team</p>
         </div>
       </body>
       </html>`,
@@ -180,9 +180,9 @@ module.exports.bookingRecievedEmail = ( bookingId, name, email, roomId) => {
 
     transport
       .sendMail({
-        from: "Juwsheyaj Hotels",
+        from: "Kanma",
         to: email,
-        subject: "Your booking details - Juwsheyaj Hotels",
+        subject: "Your booking details - Kanma",
         html: `<html>
         <head>
           <meta charset="UTF-8">
@@ -283,10 +283,10 @@ module.exports.bookingRecievedEmail = ( bookingId, name, email, roomId) => {
           <br>
           <br>
           <p>For any further assistance or if you have any questions, please don't hesitate to contact our support team. We're available  24/7 and will be happy to assist you.</p>
-          <p>Thank you for choosing Juwsheyaj Hotel. We appreciate your cooperation in maintaining the security of your account.</p>
+          <p>Thank you for choosing Kanma. We appreciate your cooperation in maintaining the security of your account.</p>
           <p>Best regards,<br>
         
-          Juwsheyaj Hotel Support Team</p>
+          Kanma Support Team</p>
           <br>
           </div>
           
@@ -304,7 +304,7 @@ module.exports.bookingConfirmedEmail = ( bookingId, name, email, roomId) => {
 
   transport
     .sendMail({
-      from: "Juwsheyaj Hotels",
+      from: "Kanma",
       to: email,
       subject: "Your booking is confirmed!",
       html: `<html>
@@ -407,10 +407,10 @@ module.exports.bookingConfirmedEmail = ( bookingId, name, email, roomId) => {
         <br>
         <br>
         <p>For any further assistance or if you have any questions, please don't hesitate to contact our support team. We're available  24/7 and will be happy to assist you.</p>
-        <p>Thank you for choosing Juwsheyaj Hotel. We appreciate your cooperation in maintaining the security of your account.</p>
+        <p>Thank you for choosing Kanma. We appreciate your cooperation in maintaining the security of your account.</p>
         <p>Best regards,<br>
       
-        Juwsheyaj Hotel Support Team</p>
+        Kanma Support Team</p>
         <br>
         </div>
         
@@ -428,7 +428,7 @@ module.exports.bookingCancelledEmail = ( bookingId, name, email, roomId) => {
 
   transport
     .sendMail({
-      from: "Juwsheyaj Hotels",
+      from: "kanma",
       to: email,
       subject: "Your booking has been cancelled!",
       html: `<html>
@@ -531,10 +531,10 @@ module.exports.bookingCancelledEmail = ( bookingId, name, email, roomId) => {
         <br>
         <br>
         <p>For any further assistance or if you have any questions, please don't hesitate to contact our support team. We're available  24/7 and will be happy to assist you.</p>
-        <p>Thank you for choosing Juwsheyaj Hotel. We appreciate your cooperation in maintaining the security of your account.</p>
+        <p>Thank you for choosing kanma. We appreciate your cooperation in maintaining the security of your account.</p>
         <p>Best regards,<br>
       
-        Juwsheyaj Hotel Support Team</p>
+        Kanma Support Team</p>
         <br>
         </div>
         
@@ -1032,6 +1032,138 @@ module.exports.bookingRecievedAdminEmail = (email, booking_number, name) => {
     
     
     `,
+    })
+    .catch((err) => console.log(err));
+};
+
+
+module.exports.orderConfirmedEmail = (name, email, orderId) => {
+  transport
+    .sendMail({
+      from: "Kanma",
+      to: email,
+      subject: `Order Confirmation - ${orderId}`,
+      html: `<html>
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Order Confirmed</title>
+        <style>
+          body {
+            background-color: #ffffff;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #333333;
+            margin: 0;
+            padding: 0;
+          }
+          .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+          }
+          h1 {
+            color: #0288d1;
+            font-size: 28px;
+            font-weight: bold;
+            text-align: center;
+          }
+          p {
+            margin: 20px 0;
+            text-align: justify;
+          }
+          .button {
+            display: inline-block;
+            background-color: #0288d1;
+            color: #ffffff !important;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px 30px;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+          }
+          .footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 14px;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <h1>Order Confirmed</h1>
+          <p>Dear ${name},</p>
+          <p>Thank you for your order! Your order ID is <strong>${orderId}</strong>. We are processing your order and will notify you once it is shipped.</p>
+          <p>If you have any questions or concerns, feel free to contact us at support@kanma.com.</p>
+          <div class="footer">
+            <p>Thank you for shopping with us!</p>
+          </div>
+        </div>
+      </body>
+    </html>`,
+    })
+    .catch((err) => console.log(err));
+};
+
+
+module.exports.orderCancelledEmail = (name, email, orderId) => {
+  transport
+    .sendMail({
+      from: "Kanma",
+      to: email,
+      subject: `Order Cancellation - ${orderId}`,
+      html: `<html>
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Order Cancelled</title>
+        <style>
+          body {
+            background-color: #ffffff;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #333333;
+            margin: 0;
+            padding: 0;
+          }
+          .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+          }
+          h1 {
+            color: #d32f2f;
+            font-size: 28px;
+            font-weight: bold;
+            text-align: center;
+          }
+          p {
+            margin: 20px 0;
+            text-align: justify;
+          }
+          .footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 14px;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <h1>Order Cancelled</h1>
+          <p>Dear ${name},</p>
+          <p>We regret to inform you that your order with ID <strong>${orderId}</strong> has been cancelled. If this was an error or you have any questions, please contact us at support@kanma.com.</p>
+          <p>We apologize for the inconvenience and hope to serve you better in the future.</p>
+          <div class="footer">
+            <p>Thank you for understanding!</p>
+          </div>
+        </div>
+      </body>
+    </html>`,
     })
     .catch((err) => console.log(err));
 };
