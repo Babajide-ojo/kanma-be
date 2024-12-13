@@ -15,7 +15,13 @@ const orderSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    item: {
+    item: [
+        {
+            vendorId: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "User",
+                required: true,
+            },
             productId: { 
                 type: mongoose.Schema.Types.ObjectId, 
                 ref: "Product",
@@ -26,7 +32,8 @@ const orderSchema = new mongoose.Schema({
                 required: true,
                 default: 1
             },
-    },
+        }
+    ],
     total_price: {
         type: Number,
         required: true

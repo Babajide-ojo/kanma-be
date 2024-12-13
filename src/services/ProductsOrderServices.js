@@ -2,6 +2,7 @@ const Product = require("../models/Product");
 const Order = require("../models/Order");
 const UserService = require("./UserService");
 const mongoose = require('mongoose');
+const splitOrder = require('../utils/orderSpliter');
 
 class ProductService {
   async createProduct(productData) {
@@ -63,31 +64,43 @@ class ProductService {
   }
 
   async createOrder(orderData) {
+    
     try {
-      const user = await UserService.getUserById(orderData.userId);
-      const item = orderData.item;
-      let totalPrice = 0;
+        const user = await UserService.getUserById(orderData.userId);
+        if (!user) throw new Error("User not found");
 
+        const subOrders = splitOrder(orderData);
 
-      const product = await Product.findById(item.productId);
-      if (!product || product.stockQty < item.quantity) {
-        throw new Error(`Product ${item.productId} is not available in the requested quantity`);
-      }
-      product.stockQty -= item.quantity;
-      await product.save();
-      totalPrice += product.price * item.quantity;
+        const savedOrders = [];
 
-      const order = await Order.create({
-        userId: orderData.userId,
-        email: user.email,
-        item: orderData.item,
-        total_price: totalPrice,
-        paymentMethod: orderData.paymentMethod,
-        shippingAddress: orderData.shippingAddress,
-      });
-      return order;
+        for (const subOrder of subOrders) {
+            for (const item of subOrder.items) {
+                const product = await Product.findById(item.productId);
+                if (!product || product.stockQty < item.quantity) {
+                    throw new Error(
+                        `Product ${item.productId} is not available in the requested quantity`
+                    );
+                }
+                product.stockQty -= item.quantity;
+                await product.save();
+            }
+
+            const newOrder = await Order.create({
+                userId: subOrder.userId,
+                email: subOrder.email,
+                item: subOrder.items,
+                total_price: subOrder.total_price,
+                paymentMethod: subOrder.paymentMethod,
+                shippingAddress: subOrder.shippingAddress,
+                status: subOrder.status,
+            });
+
+            savedOrders.push(newOrder);
+        }
+
+        return savedOrders;
     } catch (error) {
-      throw error;
+        throw error;
     }
   }
 

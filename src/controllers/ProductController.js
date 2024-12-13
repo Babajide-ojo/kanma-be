@@ -63,21 +63,23 @@ class ProductOrderController {
 
   async createOrder(req, res, next) {
     try {
-      const { userId, item, paymentMethod, shippingAddress } = req.body;
-      if (!userId || !item || !paymentMethod || !shippingAddress) {
-        return errorResponse(res, 400, "All order details are required");
-      }
+        const { userId, email, item, paymentMethod, shippingAddress } = req.body;
 
-      const order = await ProductOrderService.createOrder({
-        userId,
-        item,
-        paymentMethod,
-        shippingAddress,
-      });
+        if (!userId || !email || !item || !paymentMethod || !shippingAddress) {
+            return errorResponse(res, 400, "All order details are required");
+        }
 
-      return successResponse(res, 201, "Order created successfully", order);
+        const savedOrders = await ProductOrderService.createOrder({
+            userId,
+            email,
+            item,
+            paymentMethod,
+            shippingAddress,
+        });
+
+        return successResponse(res, 201, "Orders created successfully", savedOrders);
     } catch (error) {
-      return errorResponse(res, 500, error.message);
+        return errorResponse(res, 500, error.message);
     }
   }
 
