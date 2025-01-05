@@ -14,7 +14,7 @@ router.get("/products/:sellerId", productController.getProductsBySeller);
 
 
 router.post("/create-order", productController.createOrder);
-router.get("/orders/user", productController.getAllOrdersByUser);
+router.get("/orders/user/:userId", productController.getAllOrdersByUser);
 router.get("/orders/all", productController.getAllOrders);
 router.get("/orders/:orderId", productController.getOrderById);
 router.put("/orders/:orderId", productController.updateOrderStatus);

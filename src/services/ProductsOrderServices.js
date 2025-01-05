@@ -143,12 +143,13 @@ class ProductService {
 
   async getOrdersByUserId(userId) {
     try {
-      const orders = await Order.find({ userId }).populate("item.productId", "productName price");
-      return orders;
+        const orders = await Order.find({ userId }).populate("item.productId");
+        return orders;
     } catch (error) {
-      throw new Error("Error fetching orders by user ID: " + error.message);
+        throw new Error("Error fetching orders by user ID: " + error.message);
     }
   }
+
 
   async getProductsBySeller(sellerId) {
     try {

@@ -95,7 +95,10 @@ class ProductOrderController {
   }
 
   async getAllOrdersByUser(req, res, next) {
-    const { userId } = req.query;
+    const { userId } = req.params;
+    if (!userId) {
+        return errorResponse(res, 400, "Missing userId query parameter");
+    }
     try {
       const orders = await ProductOrderService.getOrdersByUserId(userId);
       return successResponse(res, 200, "Orders retrieved successfully", orders);
